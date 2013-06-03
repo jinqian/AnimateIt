@@ -4,5 +4,6 @@
     <string name="app_name">TestProject</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_transition3d">Transition3d</string>
 
 </resources>

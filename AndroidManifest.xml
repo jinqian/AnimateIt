@@ -22,6 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.testproject.Transition3d"
+            android:label="@string/title_activity_transition3d" >
+        </activity>
     </application>
 
 </manifest>
