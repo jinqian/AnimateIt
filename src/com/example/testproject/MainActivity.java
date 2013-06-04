@@ -36,15 +36,6 @@ public class MainActivity extends Activity {
 	public void onClickStart(View view) {
 		Button startBtn = (Button) findViewById(R.id.start);
 		startBtn.setBackgroundResource(R.drawable.btn_mask_default);
-//		final ImageView loadingImage = (ImageView) findViewById(R.id.loading);
-//		loadingImage.setVisibility(View.VISIBLE);
-//		
-//		final Animation loadingAnimation = AnimationUtils.loadAnimation(this, R.anim.anim);
-//		loadingAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-//		loadingAnimation.setStartOffset(0);
-//		loadingImage.startAnimation(loadingAnimation);
-//
-//		startBtn.setText("Loading...");
 		
 		initAnimation();
 	}
@@ -57,7 +48,13 @@ public class MainActivity extends Activity {
 		
 		Button startBtn = (Button) findViewById(R.id.start);
 		startBtn.setBackgroundResource(R.drawable.btn_mask_default);
-		loadingImage.setBackground(shiftedAnimation);
+		startBtn.setText("loading...");
+		
+		if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+			loadingImage.setBackgroundDrawable(shiftedAnimation);
+		} else {
+			loadingImage.setBackground(shiftedAnimation);
+		}
 		
         shiftedAnimation.start();
 	}
@@ -80,7 +77,7 @@ public class MainActivity extends Activity {
 	    Rect destRect3 = new Rect(srcRect3);
 	    destRect3.offset(-shiftX, bitmap.getHeight());
 	    newBitmapCanvas.drawBitmap(bitmap, srcRect3, destRect3, null);
-//	    
+
 	    Rect srcRect4 = new Rect(0, 0, shiftX, bitmap.getHeight());
 	    Rect destRect4 = new Rect(srcRect4);
 	    destRect4.offset(bitmap.getWidth() - shiftX, bitmap.getHeight());
