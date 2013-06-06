@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.AnimationDrawable;
@@ -20,10 +22,62 @@ import android.widget.ImageView;
 
 public class MainActivity extends Activity {
 	
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		ImageView pattern = (ImageView) findViewById(R.id.pattern);
+		pattern.setImageBitmap(drawPattern());
+	}
+	
+	private Bitmap drawPattern() {
+		int size = 40;
+		Bitmap b = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+		Canvas c = new Canvas(b);
+		Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+		int green = getResources().getColor(R.color.theme_green);
+		int darkGreen = getResources().getColor(R.color.theme_green_dark);
+		
+		// draw a rectangle first
+		p.setColor(green);
+		c.drawRect(0, 0, size, size, p);
+		
+		// draw a 1st triangle
+		Path path1 = new Path(); 
+		path1.reset();
+		path1.setFillType(Path.FillType.EVEN_ODD);
+		path1.moveTo(size, 0);
+		path1.lineTo(0, size);
+		path1.lineTo(0, 0);
+		path1.close();
+		p.setColor(darkGreen);
+		c.drawPath(path1, p);
+		p.setShader(null);
+		
+		// draw the 2nd triangle
+		path1.reset();
+		path1.setFillType(Path.FillType.EVEN_ODD);
+		path1.moveTo(size / 2, 0);
+		path1.lineTo(0, size / 2);
+		path1.lineTo(0, 0);
+		path1.close();
+		p.setColor(green);
+		c.drawPath(path1, p);
+		
+		// draw the 3rd triangle
+		path1.reset();
+		path1.setFillType(Path.FillType.EVEN_ODD);
+		path1.moveTo(size, size / 2);
+		path1.lineTo(size / 2, size);
+		path1.lineTo(size, size);
+		path1.close();
+		p.setColor(darkGreen);
+		c.drawPath(path1, p);
+		p.setShader(null);
+		
+		return b;
 	}
 
 	@Override
@@ -42,9 +96,9 @@ public class MainActivity extends Activity {
 	
 	@SuppressLint("NewApi")
 	private void initAnimation() {
-		Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.stripe_pattern_green);
+//		Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.stripe_pattern_green);
 		final ImageView loadingImage = (ImageView) findViewById(R.id.loading);
-		AnimationDrawable shiftedAnimation = getAnimation(b);
+		AnimationDrawable shiftedAnimation = getAnimation(drawPattern());
 		
 		Button startBtn = (Button) findViewById(R.id.start);
 		startBtn.setBackgroundResource(R.drawable.btn_mask_default);
